@@ -12,13 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Android CI
+name: Android CI and Qodana
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ qodana ]
 
 jobs:
 
@@ -42,6 +40,21 @@ jobs:
         with:
           name: assemble
           path: assemble.zip
+
+  qodana:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # a full history is required for pull request analysis
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2023.2
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }} # read the steps about it below
 #
 #  Disabling androidTest temporarily due to the stability issue b/251319989
 #  androidTest:
