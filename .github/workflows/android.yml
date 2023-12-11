@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Android CI and Qodana
+name: Android with Gradle and Qodana
 
 on:
   push:
